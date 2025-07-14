@@ -1,0 +1,36 @@
+{
+  "name": "dev-job-tracker-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
+    "start": "node ./dist/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anjorin001/Dev-Job-Tracker-Api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anjorin001/Dev-Job-Tracker-Api/issues"
+  },
+  "homepage": "https://github.com/anjorin001/Dev-Job-Tracker-Api#readme",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.13",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "http-status-codes": "^2.3.0",
+    "joi": "^17.13.3",
+    "mongoose": "^8.16.3"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}
