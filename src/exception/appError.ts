@@ -1,4 +1,6 @@
-export interface AppError extends Error{
-    statusCode?: number;
-    isOperational?: boolean;
+import { BaseError } from './baseError';
+
+export interface AppError extends BaseError {
+  statusCode: number;
+  isOperational: boolean;
 }
