@@ -12,6 +12,10 @@ import { LoginDto } from "./dto/login.dto";
 import { tokenGenerator } from "../../helper/tokenGenerator";
 class AuthService {
   private readonly userRepository: Repository<User>;
+  constructor() {
+    this.userRepository = AppDataSource.getRepository(User);
+  }
+
   async signup(input: RegisterDto) {
     const founduser = await this.userRepository.findOneBy({
       email: input.email,

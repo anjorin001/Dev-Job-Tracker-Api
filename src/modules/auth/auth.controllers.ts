@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
 import { sendSuccess } from "../../util/responseHandler";
 import AuthService from "./auth.service";
+import { ExpressContext } from "../../util/ExpressContext";
 
 class AuthController {
-  async signup(req: Request, res: Response, next: NextFunction) {
+  async signup({ req, res, next }: ExpressContext) {
     try {
       const result = await AuthService.signup(req.body);
       return sendSuccess(res, "user created succefully", 201, { result });
@@ -12,7 +12,7 @@ class AuthController {
     }
   }
 
-  async login(req: Request, res: Response, next: NextFunction) {
+  async login({ req, res, next }: ExpressContext) {
     try {
       const result = await AuthService.login(req.body);
       return sendSuccess(res, "user created succefully", 200, { result });

@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { User } from "../modules/users/user.entity";
+import { Job } from "../modules/job/job.entitty";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
   database: "DevJobTracker",
   synchronize: true, // turn off in production
   logging: false,
-  entities: [User],
+  entities: [User, Job],
   migrations: [],
   subscribers: [],
 });

@@ -5,12 +5,14 @@ import {
   Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
+  OneToMany,
+} from 'typeorm';
+import { Job } from '../job/job.entitty';
 
 @Entity()
-@Index(["email", "id"])
+@Index(['email'], { unique: true })
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column()
@@ -23,10 +25,14 @@ export class User {
   password!: string;
 
   @Column({ nullable: true })
-  career!: string;
+  career?: string;
 
   @Column({ nullable: true })
-  bio!: string;
+  bio?: string;
+
+  // One user can have many jobs
+  @OneToMany(() => Job, (job) => job.user)
+  jobs!: Job[];
 
   @CreateDateColumn()
   createdAt!: Date;
