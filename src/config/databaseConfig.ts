@@ -1,9 +1,17 @@
-import { Client } from "pg";
+import "reflect-metadata";
+import { DataSource } from "typeorm";
+import { User } from "../modules/users/user.entity";
 
-export const client = new Client({
-  user: "postgres",
+export const AppDataSource = new DataSource({
+  type: "postgres",
   host: "localhost",
-  database: "DevJobTracker",
-  password: process.env.POSTGRES_PASSWORD,
   port: 5432,
+  username: "postgres",
+  password: process.env.POSTGRES_PASSWORD,
+  database: "DevJobTracker",
+  synchronize: true, // turn off in production
+  logging: false,
+  entities: [User],
+  migrations: [],
+  subscribers: [],
 });
