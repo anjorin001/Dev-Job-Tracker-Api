@@ -20,6 +20,15 @@ class AuthController {
       next(err);
     }
   }
+
+  async changePassword({ req, res, next }: ExpressContext) {
+    try {
+      // const result = await AuthService.login(req.body);
+      // return sendSuccess(res, "user created succefully", 200, { result });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new AuthController();

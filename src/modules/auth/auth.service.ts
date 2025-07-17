@@ -49,6 +49,32 @@ class AuthService {
 
     return token;
   }
+
+  async changePassword(
+    userId: string,
+    newPassword: string,
+    oldPassword: string
+  ) {
+    const founduser = await this.userRepository.findOneBy({
+      id: userId,
+    });
+
+    if (!founduser) throw new UnauthorizedError("email does not exist");
+
+    const passwordMatch = await comparePassword(
+      founduser.password,
+      oldPassword
+    );
+
+    if (!passwordMatch) throw new UnauthorizedError("invalid password");
+
+    const changePassword = await this.userRepository.update(
+      { id: userId },
+      { password: newPassword }
+    );
+
+    return newPassword;
+  }
 }
 
 export default new AuthService();

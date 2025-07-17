@@ -6,13 +6,14 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToMany,
-} from 'typeorm';
-import { Job } from '../job/job.entitty';
+} from "typeorm";
+import { Job } from "../job/job.entitty";
+import { Exclude } from "class-transformer";
 
 @Entity()
-@Index(['email'], { unique: true })
+@Index(["email"], { unique: true })
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Column()
@@ -22,6 +23,7 @@ export class User {
   email!: string;
 
   @Column()
+  @Exclude()
   password!: string;
 
   @Column({ nullable: true })
