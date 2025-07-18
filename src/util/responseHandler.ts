@@ -10,7 +10,7 @@ export interface ErrorResponse {
   success: false;
   message: string;
   errors?: any;
-  statusCode?: number;
+  statusCode?: any;
 }
 
 export const sendSuccess = <T>(

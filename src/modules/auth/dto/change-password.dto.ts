@@ -10,7 +10,7 @@ export class ChangePasswordDto {
   @IsNotEmpty()
   @IsStrongPassword()
   @MaxLength(20)
-  password: string;
+  oldPassword: string;
 
   @IsString()
   @IsNotEmpty()

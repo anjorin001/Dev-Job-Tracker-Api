@@ -28,7 +28,7 @@ class AuthService {
     if (founduser) throw new ConflictError("user already exist");
     const hashedPassword = await hashPassword(input.password);
 
-    const newUser = await this.userRepository.create({
+    const newUser = await this.userRepository.save({
       ...input,
       password: hashedPassword,
     });
@@ -44,8 +44,8 @@ class AuthService {
     if (!founduser) throw new UnauthorizedError("email does not exist");
 
     const passwordMatch = await comparePassword(
+      input.password,
       founduser.password,
-      input.password
     );
 
     if (!passwordMatch) throw new UnauthorizedError("invalid password");
@@ -63,15 +63,16 @@ class AuthService {
     if (!founduser) throw new UnauthorizedError("email does not exist");
 
     const passwordMatch = await comparePassword(
+      oldPassword,
       founduser.password,
-      oldPassword
     );
 
     if (!passwordMatch) throw new UnauthorizedError("invalid password");
 
+    const hashedNewPassword = await hashPassword(newPassword);
     const changePassword = await this.userRepository.update(
       { id: userId },
-      { password: newPassword }
+      { password: hashedNewPassword }
     );
 
     return true;

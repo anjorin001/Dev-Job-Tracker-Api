@@ -9,7 +9,7 @@ const userRouter = Router();
 // 5	DELETE	/users/:id	Delete user
 //TODO 6	GET	/users/:id/jobs	Get user's jobs
 
-userRouter.get("/user/:id", userController.getUsers);
+userRouter.get("/user", userController.getUsers); //query
 userRouter.patch("/user/:id", userController.updateUser);
 userRouter.delete("/user/:id", userController.deleteUser);
 

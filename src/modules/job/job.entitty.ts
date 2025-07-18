@@ -31,10 +31,6 @@ export class Job {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  @IsString()
-  userId: string;
-
   @ManyToOne(() => User, (user) => user.jobs, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: User;

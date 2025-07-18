@@ -1,27 +1,27 @@
 import { sendSuccess } from "../../util/responseHandler";
 import AuthService from "./auth.service";
-import { ExpressContext } from "../../util/ExpressContext";
+import { Request, Response, NextFunction } from "express";
 
 class AuthController {
-  async signup({ req, res, next }: ExpressContext) {
+  async signup(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await AuthService.signup(req.body);
-      return sendSuccess(res, "user created succefully", 201, { result });
+      return sendSuccess(res, "user created successfully", 201, { result });
     } catch (err) {
       next(err);
     }
   }
 
-  async login({ req, res, next }: ExpressContext) {
+  async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await AuthService.login(req.body);
-      return sendSuccess(res, "user created succefully", 200, { result });
+      const token = await AuthService.login(req.body);
+      return sendSuccess(res, "user created successfully", 200, { token });
     } catch (err) {
       next(err);
     }
   }
 
-  async changePassword({ req, res, next }: ExpressContext) {
+  async changePassword(req: Request, res: Response, next: NextFunction) {
     try {
       const newPassword = await AuthService.changePassword(
         req.user.userId,
@@ -33,16 +33,20 @@ class AuthController {
     }
   }
 
-  async getForgotPasswordToken({ req, res, next }: ExpressContext) {
+  async getForgotPasswordToken(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      const fpToken = await AuthService.getForgotPasswordToken(req.body.email);
-      return sendSuccess(res, "token retrieved succefully", 200, { fpToken });
+      const token = await AuthService.getForgotPasswordToken(req.body.email);
+      return sendSuccess(res, "token retrieved succefully", 200, { token });
     } catch (err) {
       next(err);
     }
   }
 
-  async resetPassword({ req, res, next }: ExpressContext) {
+  async resetPassword(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await AuthService.resetPassword(req.body); //token, newPassword
       return sendSuccess(res, "password changed succefully", 200);

@@ -3,10 +3,13 @@ import { UpdateJobDto } from "./dto/job-update.dto";
 import { Router } from "express";
 import { validateDto } from "../../util/validateDto";
 import jobController from "./job.controller";
+import { authMiddleware } from "../../middleware/authMiddleware";
 
 const jobRouter = Router();
 
-jobRouter.get("/job/:id", jobController.getJobs);
+jobRouter.use(authMiddleware)
+
+jobRouter.get("/job", jobController.getJobs);
 
 jobRouter.post(
   "/create-job",
@@ -15,11 +18,11 @@ jobRouter.post(
 );
 
 jobRouter.patch(
-  "/update-job",
+  "/update-job/:id",
   validateDto(UpdateJobDto),
   jobController.updateJob
 );
 
-jobRouter.delete("/delete-job", jobController.deleteJob);
+jobRouter.delete("/delete-job/:id", jobController.deleteJob);
 
 export default jobRouter;

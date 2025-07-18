@@ -22,18 +22,24 @@ class UserService {
     return instanceToPlain(users);
   }
 
-  async updateUser(id: any, input: UpdateUserDto) {
-    const updatedUser = await this.userRepository.update({ id: id }, input);
-    if (!updatedUser) throw new NotFoundError("user not found, invalid userId");
-    return updatedUser;
+async updateUser(id: string, input: UpdateUserDto) {
+  const result = await this.userRepository.update({ id }, input);
+
+  if (result.affected === 0) {
+    throw new NotFoundError("User not found or update failed");
   }
+
+  const updatedUser = await this.userRepository.findOneBy({ id });
+  return updatedUser;
+}
+
 
   async deleteUser(id: any) {
     const deletedUser = await this.userRepository.delete({ id: id });
     if (!deletedUser)
       throw new NotFoundError("user not found, invalid user Id");
     return deletedUser;
-  }
+  }//TODO delete user last test postman
 }
 
 export default new UserService()

@@ -8,8 +8,8 @@ export const hashPassword = async (password: string): Promise<string> => {
 };
 
 export const comparePassword = async (
-  existingPassword: string,
-  inputPassword: string
+  inputPassword: string,
+  existingPassword: string
 ): Promise<boolean> => {
-  return bycrpt.compare(existingPassword, inputPassword);
+  return bycrpt.compare(inputPassword, existingPassword);
 };

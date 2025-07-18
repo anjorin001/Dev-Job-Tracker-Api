@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { Job } from "../job/job.entitty";
 import { Exclude } from "class-transformer";
+import { ForgetPasswordReset } from "../auth/forgetPassword.entity";
 
 @Entity()
 @Index(["email"], { unique: true })
@@ -19,7 +20,7 @@ export class User {
   @Column()
   name!: string;
 
-  @Column()
+  @Column({ unique: true })
   email!: string;
 
   @Column()
@@ -35,6 +36,10 @@ export class User {
   // One user can have many jobs
   @OneToMany(() => Job, (job) => job.user)
   jobs!: Job[];
+
+  // One user can have many forget password resets
+  @OneToMany(() => ForgetPasswordReset, (reset) => reset.user)
+  forgetPasswordResets!: ForgetPasswordReset[];
 
   @CreateDateColumn()
   createdAt!: Date;

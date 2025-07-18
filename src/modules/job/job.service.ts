@@ -13,9 +13,7 @@ class JobService {
     this.jobRepository = AppDataSource.getRepository(Job);
   }
 
-  async getJob(jobId: any) {
-    const { id } = jobId;
-
+  async getJob(id: string) {
     const filter = {} as any;
     if (id) filter.id = id;
 
@@ -32,21 +30,33 @@ class JobService {
     return await this.jobRepository.save(newJob);
   }
 
-  async updateJob(jobId: any, input: UpdateJobDto) {
-    if (!input)
-      throw new ValidationError("at least one update field is required");
+  async updateJob(id: string, input: UpdateJobDto) {
+    if (!input || Object.keys(input).length === 0) {
+      throw new ValidationError("At least one update field is required");
+    }
 
-    const foundJob = await this.jobRepository.findOneBy({ id: jobId });
-    if (!foundJob) throw new NotFoundError("job not found, invalid job ID");
+    const foundJob = await this.jobRepository.findOneBy({ id });
+    if (!foundJob) {
+      throw new NotFoundError("Job not found, invalid job ID");
+    }
 
-    const updatedJob = await this.jobRepository.update({ id: jobId }, input);
+    await this.jobRepository.update({ id }, input);
+
+    const updatedJob = await this.jobRepository.findOneBy({ id });
     return updatedJob;
   }
 
-  async deleteJob(jobId: any) {
-    const deletedJob = await this.jobRepository.delete({ id: jobId });
-    if (!deletedJob) throw new NotFoundError("job not found, invalid Job Id");
-    return deletedJob;
+  async deleteJob(id: string) {
+    const deleteResult = await this.jobRepository.delete({ id });
+
+    if (deleteResult.affected === 0) {
+      throw new NotFoundError("Job not found, invalid Job ID");
+    }
+
+    return {
+      message: "Job deleted successfully",
+      affected: deleteResult.affected,
+    };
   }
 }
 
